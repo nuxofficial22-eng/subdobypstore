@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pstore7 SubdoHub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ================== COLOR THEME ================== */
+:root{
+  --bg:#0f172a;          /* dark navy background */
+  --card:#1e293b;        /* slightly lighter card */
+  --primary:#3b82f6;     /* bright blue accent */
+  --primary-dark:#1e40af;/* darker blue hover */
+  --danger:#3b82f6;
+  --success:#3b82f6;
+  --text:#f1f5f9;        /* light text */
+  --border:#334155;      /* subtle border */
+}
+
+/* ================== RESET ================== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+
+/* ================== HEADER ================== */
+header{
+  background:var(--card);
+  padding:20px 30px;
+  border-bottom:1px solid var(--border);
+  font-size:20px;
+  font-weight:600;
+  text-align:center;
+  border-radius:0 0 10px 10px;
+}
+
+/* ================== CONTAINER ================== */
+.container{
+  max-width:1000px;
+  margin:30px auto;
+  padding:0 20px;
+}
+
+/* ================== CARD ================== */
+.card{
+  background:var(--card);
+  padding:25px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  margin-bottom:25px;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 6px 25px rgba(0,0,0,0.4);
+}
+
+/* ================== HEADINGS ================== */
+h2{
+  font-size:16px;
+  margin-bottom:15px;
+  font-weight:600;
+}
+
+/* ================== INPUT ================== */
+input{
+  width:100%;
+  padding:10px 12px;
+  margin-bottom:12px;
+  border-radius:6px;
+  border:1px solid var(--border);
+  background:#1e293b;
+  color:var(--text);
+  font-size:14px;
+  transition:0.2s;
+}
+
+input:focus{
+  outline:none;
+  border-color:var(--primary);
+  box-shadow:0 0 8px var(--primary);
+}
+
+/* ================== BUTTON ================== */
+button{
+  padding:10px 18px;
+  border-radius:8px;
+  border:none;
+  font-size:14px;
+  cursor:pointer;
+  transition:all 0.3s ease;
+  position:relative;
+  font-weight:500;
+}
+
+button:active{
+  transform:scale(0.97);
+}
+
+button.loading{
+  opacity:0.7;
+  pointer-events:none;
+}
+
+.btn-primary{
+  background:#334155;
+  color:white;
+  box-shadow:0 4px 12px #334155(59,130,246,0.3);
+}
+
+.btn-primary:hover{
+  background:#334155;
+  box-shadow:0 6px 18px #334155(30,64,175,0.4);
+}
+
+.btn-danger{
+  background:#334155;
+  color:white;
+}
+
+.btn-secondary{
+  background:#475569;
+  color:white;
+}
+
+/* ================== NOTIFICATION ================== */
+.notification{
+  padding:12px;
+  border-radius:6px;
+  margin-bottom:15px;
+  font-size:14px;
+  display:none;
+  transition:all 0.3s ease;
+}
+
+.notification.success{
+  background:#1e40af;
+  color:#a7f3d0;
+  border:1px solid #3b82f6;
+}
+
+.notification.error{
+  background:#1e40af;
+  color:#fee2e2;
+  border:1px solid #3b82f6;
+}
+
+/* ================== TABLE ================== */
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+th, td{
+  padding:10px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+}
+
+th{
+  background:#1e293b;
+  font-weight:500;
+}
+
+tr:hover{
+  background:#334155;
+}
+
+.badge{
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  background:#3b82f6;
+  color:white;
+}
+
+/* ================== FOOTER ================== */
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:13px;
+  color:#94a3b8;
+}
+
+/* ================== RESPONSIVE ================== */
+@media(max-width:600px){
+  .card{padding:15px;}
+  input, button{font-size:13px;}
+  table th, table td{padding:8px;}
+}
+
+/* ===== FIX AGAR DOMAIN PANJANG TIDAK MELEBAR ===== */
+/* ===== DOMAIN LEBIH KECIL SUPAYA MUAT 1 BARIS ===== */
+
+table{
+  table-layout: fixed;
+  width: 100%;
+}
+
+th:nth-child(1), td:nth-child(1){
+  width: 40%;
+}
+
+td:nth-child(1){
+  font-size: 13px;      /* kecilkan teks */
+  white-space: nowrap;  /* tetap 1 baris */
+}
+/* Supaya tabel tidak melebar */
+table{
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Atur lebar setiap kolom */
+/* ===== DOMAIN 1 BARIS TIDAK TURUN ===== */
+
+table{
+  table-layout: fixed;
+  width:100%;
+}
+
+th:nth-child(1), td:nth-child(1){
+  width:35%;
+}
+
+td:nth-child(1){
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-copy{
+  background:#334155;
+  color:white;
+  margin-left:6px;
+  padding:6px 10px;
+  font-size:12px;
+  border-radius:6px;
+}
+
+.btn-copy:hover{
+  background:#0284c7;
+}
+
+/* ===== RAPIIKAN TOMBOL ACTION ===== */
+
+td:last-child{
+  text-align:center;
+}
+
+.action-buttons{
+  display:flex;
+  justify-content:center; /* tetap tengah */
+  gap:8px;
+  transform: translateX(-10px); /* geser kiri sedikit */
+}
+
+.btn-danger{
+  padding:3px 6px;
+  font-size:10px;
+}
+
+.action-buttons{
+  position: relative;
+  left: -3px;  /* atur angka ini */
+}
+
+td:last-child{
+  padding-left: 1px;   /* sebelumnya 10px */
+}
+
+
+</style>
+</head>
+
+<body>
+
+<header>Pstore7 SubdoHub</header>
+
+<div class="container">
+
+<!-- PASSWORD INPUT CARD -->
+<div class="card">
+  <h2>Enter Password</h2>
+  <input type="password" id="password" placeholder="Password System">
+</div>
+
+<!-- CREATE SUBDOMAIN -->
+<div class="card">
+  <h2>Create Subdomain</h2>
+
+  <div id="notif" class="notification"></div>
+
+  <input type="text" id="subdomain" placeholder="Subdomain (example: pstore)">
+  <input type="text" id="ip" placeholder="IP Address (example: 167.99.34.77)">
+
+  <button id="createBtn" class="btn-primary" onclick="createSubdomain()">Create</button>
+</div>
+
+  <!-- LIST SUBDOMAIN -->
+  <div class="card">
+    <h2>Subdomain List</h2>
+    <button class="btn-secondary" onclick="loadSubdomains()">Refresh</button>
+    <br><br>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Domain</th>
+          <th>IP</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="list"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<footer>© 2026 | Pstore7</footer>
+
+<script>
+const API_BASE = "https://pstore7.nuxoffc.workers.dev";
+
+// ================== NOTIFICATION ==================
+function showNotif(message, type){
+  const notif = document.getElementById("notif");
+  notif.className = "notification " + type;
+  notif.innerText = message;
+  notif.style.display = "block";
+
+  setTimeout(()=>{
+    notif.style.display = "none";
+  },4000);
+}
+
+// ================== CREATE SUBDOMAIN ==================
+async function createSubdomain(){
+  const btn = document.getElementById("createBtn");
+  btn.classList.add("loading");
+  btn.innerText = "Processing...";
+
+  const subdomain = document.getElementById("subdomain").value.trim();
+  const ip = document.getElementById("ip").value.trim();
+  const password = document.getElementById("password").value;
+
+  try{
+    const res = await fetch(API_BASE + "/create",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({subdomain,ip,password})
+    });
+
+    const data = await res.json();
+
+    if(!res.ok || data.error){
+      showNotif(data.error || "Failed to create subdomain", "error");
+    }else{
+      showNotif("Subdomain berhasil dibuat!", "success");
+      loadSubdomains();
+    }
+
+  }catch(err){
+    showNotif("Network error atau server tidak merespon", "error");
+  }
+
+  btn.classList.remove("loading");
+  btn.innerText = "Create";
+}
+
+// ================== LOAD SUBDOMAIN LIST ==================
+async function loadSubdomains(){
+  const password = document.getElementById("password").value;
+  const tbody = document.getElementById("list");
+  tbody.innerHTML = "";
+
+  try{
+    const res = await fetch(API_BASE + "/list?password=" + password);
+    const data = await res.json();
+
+    if(data.error){
+      showNotif(data.error,"error");
+      return;
+    }
+if(!data.records || data.records.length === 0){
+  tbody.innerHTML = `
+    <tr>
+      <td colspan="4" style="text-align:center; color:#94a3b8;">
+        Belum ada subdomain
+      </td>
+    </tr>
+  `;
+  return;
+}
+    data.records.forEach(r=>{
+  tbody.innerHTML += `
+    <tr>
+      <td class="domain-cell">${r.name}</td>
+      <td>${r.ip}</td>
+      <td><span class="badge">Active</span></td>
+<td>
+  <div class="action-buttons">
+    <button class="btn-copy" onclick="copyText('${r.name}')">Copy</button>
+    <button class="btn-danger" onclick="deleteSub('${r.id}')">Delete</button>
+  </div>
+</td>
+    </tr>
+  `;
+});
+
+  }catch{
+    showNotif("Gagal mengambil data list","error");
+  }
+}
+
+// ================== DELETE SUBDOMAIN ==================
+async function deleteSub(id){
+  const password = document.getElementById("password").value;
+
+  if(!confirm("Delete this subdomain?")) return;
+
+  try{
+    const res = await fetch(API_BASE + "/delete",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({id,password})
+    });
+
+    const data = await res.json();
+
+    if(data.error){
+      showNotif(data.error,"error");
+    }else{
+      showNotif("Subdomain berhasil dihapus","success");
+      loadSubdomains();
+    }
+
+  }catch{
+    showNotif("Gagal menghapus subdomain","error");
+  }
+}
+
+// ================== COPY FUNCTION ==================
+function copyText(text){
+  navigator.clipboard.writeText(text)
+    .then(()=>{
+      showNotif("Subdomain berhasil di copy", "success");
+    })
+    .catch(()=>{
+      showNotif("Gagal copy", "error");
+    });
+}
+</script>
+
+</body>
+</html>
